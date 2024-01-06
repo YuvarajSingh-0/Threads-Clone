@@ -1,5 +1,4 @@
 import AccountProfile from "@/components/forms/AccountProfile";
-import { Button } from "@/components/ui/button";
 import { currentUser } from "@clerk/nextjs";
 
 async function Onboarding() {
@@ -24,7 +23,6 @@ async function Onboarding() {
                 user={userData}
                 btnTitle="Continue"
                 />
-                <Button variant="secondary" className="mt-10">hi</Button>
             </section>
         </main>
     )
