@@ -15,9 +15,8 @@ import {
 } from "@/components/ui/form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ThreadValidation } from '@/lib/validations/thread';
-import Image from 'next/image';
 import { Textarea } from '../ui/textarea';
-
+import { createThread } from '@/lib/actions/thread.actions';
 
 
 function PostThread({ userId }: { userId: string }) {
@@ -33,8 +32,14 @@ function PostThread({ userId }: { userId: string }) {
         }
     })
 
-    const onSubmit =()=>{
-        console.log('submitting')
+    const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+        await createThread({
+            text: values.thread,
+            author: userId,
+            communityId: null,
+            path: pathname
+        });
+        router.push('/')
     }
 
     return (
@@ -53,7 +58,7 @@ function PostThread({ userId }: { userId: string }) {
                             <FormControl className='no-focus border border-dark-4 bg-dark-3 text-light-1 flex-1 text-base-semibold'>
                                 <Textarea
                                     rows={15}
-                                    
+
                                     placeholder="upload a photo"
                                     {...field}
                                 />
@@ -63,7 +68,7 @@ function PostThread({ userId }: { userId: string }) {
                     )}
                 />
                 <Button type="submit" className='bg-primary-500' >
-                        Post Thread
+                    Post Thread
                 </Button>
             </form>
         </Form>
