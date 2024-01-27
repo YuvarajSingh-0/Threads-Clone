@@ -41,11 +41,9 @@ function ProfileHeader({
             </div>
             {/* TODO: Community */}
             <p className="mt-6 text-light-2 max-w-lg text-base-regular ">
-
+                {bio}
             </p>
-            <div className="mt-12 bg-dark-3 h-0.5 w-full">
-
-            </div>
+            <div className="mt-10 bg-dark-3 h-0.5 w-full" />
         </div>
     )
 }
