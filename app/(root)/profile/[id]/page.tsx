@@ -23,10 +23,10 @@ async function Page({ params }: { params: { id: string } }) {
                 bio={userInfo.bio}
             />
             <div className="mt-9">
-                <Tabs defaultValue="threads" className="w-full">
-                    <TabsList className="tab bg-dark-2">
+                <Tabs defaultValue="threads">
+                    <TabsList className="tab w-full bg-dark-2">
                         {profileTabs.map((tab) => (
-                            <TabsTrigger key={tab.label} value={tab.value}>
+                            <TabsTrigger key={tab.label} className="w-full" value={tab.value}>
                                 <Image
                                     src={tab.icon}
                                     alt={tab.label}
