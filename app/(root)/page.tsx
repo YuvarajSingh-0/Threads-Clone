@@ -16,7 +16,7 @@ interface postType {
 export default async function Home() {
   const user = await currentUser();
   const result = await fetchPosts(1, 30);
-  console.log(result)
+  // console.log("In / html",result)
   return (
     <main>
       <h1 className="text-heading2-bold text-head text-light-1 text-left">Threads</h1>

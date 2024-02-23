@@ -60,7 +60,7 @@ function PostThread({ userId }: { userId: string }) {
                                 <Textarea
                                     rows={15}
 
-                                    placeholder="upload a photo"
+                                    placeholder="write a thread..."
                                     {...field}
                                 />
                             </FormControl>

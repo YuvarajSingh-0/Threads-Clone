@@ -7,6 +7,18 @@ import Thread from "../models/thread.model";
 import User from "../models/user.model";
 
 import { connectToDB } from "../mongoose";
+import mongoose, { Document } from 'mongoose';
+
+interface ICommunity extends Document {
+    id: string;
+    username: string;
+    name: string;
+    image: string;
+    bio: string;
+    createdBy: mongoose.Types.ObjectId;
+    members: mongoose.Types.ObjectId[];
+    threads: mongoose.Types.ObjectId[];
+}
 
 export async function createCommunity(
     id: string,
@@ -300,4 +312,31 @@ export async function deleteCommunity(communityId: string) {
         console.error("Error deleting community: ", error);
         throw error;
     }
+}
+
+export async function recommendCommunities(userId: string): Promise<ICommunity[]> {
+    // Get the communities the user is part of
+    const Community = mongoose.model<ICommunity>('Community');
+    const user = await User.findOne({id:userId}).populate('communities');
+    const userCommunities = user.communities.map((community: { _id: any; }) => community._id);
+
+    // Find active communities
+    const activeCommunities = (await Community.find({
+        members: { $nin: userCommunities },
+    }).populate({
+        path: 'threads',
+        populate: { path: 'children' }
+    })) as unknown as ICommunity[];
+
+    // Rank communities by thread engagement
+    activeCommunities.sort((a, b) => {
+        const aEngagement = a.threads.reduce((sum, thread: any) => sum + thread.children.length, 0);
+        const bEngagement = b.threads.reduce((sum, thread: any) => sum + thread.children.length, 0);
+        return bEngagement - aEngagement;
+    });
+
+    // Limit to top 10 communities
+    const recommendedCommunities = activeCommunities.slice(0, 10);
+
+    return recommendedCommunities;
 }

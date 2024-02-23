@@ -8,6 +8,18 @@ import Thread from "../models/thread.model";
 import User from "../models/user.model";
 
 import { connectToDB } from "../mongoose";
+import mongoose, { Document } from 'mongoose';
+
+interface IUser extends Document {
+    id: string;
+    username: string;
+    name: string;
+    image: string;
+    bio: string;
+    threads: mongoose.Types.ObjectId[];
+    onboarded: boolean;
+    communities: mongoose.Types.ObjectId[];
+}
 
 export async function fetchUser(userId: string) {
     try {
@@ -180,4 +192,43 @@ export async function getActivity(userId: string) {
         console.error("Error fetching replies: ", error);
         throw error;
     }
+}
+
+export async function recommendProfiles(userId: string): Promise<IUser[]> {
+    // Get the communities the user is part of
+    const user = await User.findOne({ id: userId }).populate('communities');
+    const userCommunities = user.communities.map((community: { _id: mongoose.Types.ObjectId; }) => community._id);
+
+    let activeUsers: IUser[];
+
+    if (userCommunities.length > 0) {
+        // Find active users in the same communities
+        activeUsers = (await User.find({
+            communities: { $in: userCommunities },
+            onboarded: true,
+        }).populate({
+            path: 'threads',
+            populate: { path: 'children' }
+        })) as unknown as IUser[];
+    } else {
+        // Find popular users across the entire application
+        activeUsers = (await User.find({
+            onboarded: true,
+        }).populate({
+            path: 'threads',
+            populate: { path: 'children' }
+        })) as unknown as IUser[];
+    }
+
+    // Rank users by thread engagement
+    activeUsers.sort((a, b) => {
+        const aEngagement = a.threads.reduce((sum, thread: any) => sum + thread.children.length, 0);
+        const bEngagement = b.threads.reduce((sum, thread: any) => sum + thread.children.length, 0);
+        return bEngagement - aEngagement;
+    });
+
+    // Limit to top 10 users
+    const recommendedProfiles = activeUsers.slice(0, 10);
+
+    return recommendedProfiles;
 }
