@@ -89,17 +89,23 @@ export async function fetchUserPosts(userId: string) {
                     select: "name id image _id", // Select the "name" and "_id" fields from the "Community" model
                 },
                 {
+                    path:"author",
+                    model: User,
+                    select: "name image id _id", // Select the "name" and "_id" fields from the "User" model
+                },
+                {
                     path: "children",
                     model: Thread,
                     populate: {
                         path: "author",
                         model: User,
-                        select: "name image id", // Select the "name" and "_id" fields from the "User" model
+                        select: "name image id _id", // Select the "name" and "_id" fields from the "User" model
                     },
                 },
             ],
         });
-        return threads;
+        console.log("in funct fetch userposts",threads);
+        return threads.threads;
     } catch (error) {
         console.error("Error fetching user threads:", error);
         throw error;
@@ -165,7 +171,7 @@ export async function fetchUsers({
     }
 }
 
-export async function getActivity(userId: string) {
+export async function getReplies(userId: string) {
     try {
         connectToDB();
 
@@ -184,7 +190,7 @@ export async function getActivity(userId: string) {
         }).populate({
             path: "author",
             model: User,
-            select: "name image _id",
+            select: "name image _id id",
         });
 
         return replies;

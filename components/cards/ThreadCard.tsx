@@ -1,4 +1,3 @@
-import { fetchUser } from '@/lib/actions/user.actions'
 import { formatDateString } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -42,8 +41,6 @@ async function ThreadCard({
   likes,
 }: props) {
 
-  const userInfo = await fetchUser(currentUserId);
-
 
   return (
     <article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'}`}>
@@ -66,7 +63,7 @@ async function ThreadCard({
             </p>
             <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
               <div className='flex gap-1 place-items-center'>
-                <LikeButton threadId={id} likes={likes} userId={userInfo?._id} />
+                <LikeButton threadId={id} likes={likes} userId={currentUserId} />
                 <Link href={`/thread/${id}`}>
                   <Image src='/assets/reply.svg' alt='reply' width={24} height={24} className='cursor-pointer object-contain' />
                 </Link>

@@ -1,6 +1,6 @@
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from 'next/navigation'
-import { fetchUser, getActivity } from "@/lib/actions/user.actions";
+import { fetchUser, getReplies } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import UserCard from "@/components/cards/UserCard";
 import Link from "next/link";
@@ -12,7 +12,7 @@ async function Page() {
     const userInfo = await fetchUser(user.id);
     if (!userInfo.onboarded) redirect('/onboarding');
 
-    const activity = await getActivity(userInfo._id);
+    const activity = await getReplies(userInfo._id);
     return (
         <section>
             <h1 className="text-heading2-bold text-light-1">Activity</h1>

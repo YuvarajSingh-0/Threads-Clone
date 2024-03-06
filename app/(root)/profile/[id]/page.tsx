@@ -12,6 +12,11 @@ async function Page({ params }: { params: { id: string } }) {
     if (!user) return null;
     const userInfo = await fetchUser(params.id);
     if (!userInfo?.onboarded) redirect('/onboarding')
+    newFunction(userInfo, user);
+    function newFunction(userInfo: any, user: any) {
+        console.log(userInfo.id);
+        console.log(user.id);
+    }
     return (
         <section>
             <ProfileHeader
@@ -37,15 +42,16 @@ async function Page({ params }: { params: { id: string } }) {
                                 <p className="max-sm:hidden">{tab.label}</p>
                                 {tab.label === 'Threads' && (
                                     <p className="ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2">{userInfo?.threads.length}</p>
-                                
+
                                 )}
                             </TabsTrigger>
                         ))}
                     </TabsList>
-                    {profileTabs.map((tab)=>(
+                    {profileTabs.map((tab) => (
                         <TabsContent key={`content-${tab.label}`} value={tab.value} className="w-full text-light-1">
                             <ThreadsTab
-                                currentUserId={user.id}
+                                tabValue={tab.value}
+                                currentUserId={userInfo._id}
                                 accountId={userInfo.id}
                                 accountType="User"
                             />
@@ -55,6 +61,8 @@ async function Page({ params }: { params: { id: string } }) {
             </div>
         </section>
     )
+
+
 }
 
 export default Page;
