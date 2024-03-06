@@ -2,7 +2,7 @@
 
 This project is a clone of Threads built using MongoDB, Next.js with TypeScript, and Clerk.js for authentication.
 
- `Status:` development [80%]
+ `Status:` development [90%]
 
  `Live link`: [Click Here](https://threads-clone-swart-sigma.vercel.app/)
 

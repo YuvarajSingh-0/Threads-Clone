@@ -25,7 +25,7 @@ export default async function Home() {
           <p>No threads found</p>
         ) : (
           result.posts.map((post: any) => (
-            <ThreadCard key={post._id} id={post._id} currentUserId={user?.id || ""} parentId={post.parentId} content={post.text} author={post.author} community={post.community} createdAt={post.createdAt} comments={post.children} />
+            <ThreadCard key={post._id} id={post._id} currentUserId={user?.id || ""} parentId={post.parentId} content={post.text} author={post.author} community={post.community} createdAt={post.createdAt} comments={post.children} likes={post.likes} />
           ))
         )}
       </section>

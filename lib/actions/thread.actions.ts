@@ -233,3 +233,41 @@ export async function addCommentToThread(
         throw new Error("Unable to add comment");
     }
 }
+
+export async function addLikeToThread(threadId: string,
+    userId: string,
+    path: string) {
+    connectToDB();
+    try {
+        // Find the thread by its ID
+        const thread = await Thread.findById(threadId);
+        if (!thread) {
+            throw new Error("Thread not found");
+        }
+        // Add the user's ID to the thread's likes array
+        thread.likes.push(userId);
+        // Save the updated thread to the database
+        await thread.save();
+        revalidatePath(path);
+    } catch (err) {
+        console.error("Error while adding like:", err);
+        throw new Error("Unable to add like");
+    }
+}
+
+export async function removeLikeFromThread(threadId: string,
+    userId: string,
+    path: string) {
+    connectToDB();
+    try {
+        // Remove the user's ID from the thread's likes array
+        const thread = await Thread.findByIdAndUpdate({ _id: threadId }, { $pull: { likes: userId } });
+        if (!thread) {
+            throw new Error("Thread not found");
+        }
+        revalidatePath(path);
+    } catch (err) {
+        console.error("Error while removing like:", err);
+        throw new Error("Unable to remove like");
+    }
+}
