@@ -79,7 +79,7 @@ export default function AccountProfile({ user, btnTitle }: Props) {
                 values.profile_photo = imgRes[0].url;
             }
         }
-        console.log(values)
+        // console.log(values)
         await updateUser({
             name: values.name,
             path: pathname,

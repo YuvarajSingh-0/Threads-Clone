@@ -107,7 +107,7 @@ export async function fetchCommunityPosts(id: string) {
             ],
         });
 
-        return communityPosts;
+        return communityPosts.threads;
     } catch (error) {
         console.error("Error fetching community posts:", error);
         throw error;

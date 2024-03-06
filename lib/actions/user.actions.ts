@@ -104,7 +104,7 @@ export async function fetchUserPosts(userId: string) {
                 },
             ],
         });
-        console.log("in funct fetch userposts",threads);
+        // console.log("in funct fetch userposts",threads);
         return threads.threads;
     } catch (error) {
         console.error("Error fetching user threads:", error);

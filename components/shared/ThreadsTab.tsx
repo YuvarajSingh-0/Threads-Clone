@@ -17,17 +17,11 @@ async function ThreadsTab({ currentUserId, accountId, accountType, tabValue }: p
     } else {
         if (tabValue === 'threads') {
             result = await fetchUserPosts(accountId);
-            func(result);
         }
         else if (tabValue == 'replies') {
 
             result = await getReplies(currentUserId);
-            func(result);
         }
-    }
-
-    function func(result: any) {
-        console.log("func", result);
     }
 
     if (!result) redirect('/')

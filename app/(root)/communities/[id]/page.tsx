@@ -44,6 +44,7 @@ async function Page({ params }: { params: { id: string } }) {
                     </TabsList>
                     <TabsContent value={'threads'} className="w-full text-light-1">
                         <ThreadsTab
+                            tabValue="threads"
                             currentUserId={user.id}
                             accountId={communityDetails._id}
                             accountType="Community"
@@ -62,13 +63,13 @@ async function Page({ params }: { params: { id: string } }) {
                             ))}
                         </section>
                     </TabsContent>
-                    <TabsContent value={'requests'} className="w-full text-light-1">
+                    {/* <TabsContent value={'requests'} className="w-full text-light-1">
                         <ThreadsTab
                             currentUserId={user.id}
                             accountId={communityDetails._id}
                             accountType="Community"
                         />
-                    </TabsContent>
+                    </TabsContent> */}
 
                 </Tabs>
             </div>

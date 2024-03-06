@@ -9,7 +9,6 @@ function LikeButton({ threadId, likes, userId }: { threadId: string, likes: stri
 
     const [isLiked, setIsLiked] = useState(likes.includes(userId));
     const toggleLike = async (id: string) => {
-        console.log('toggleLike', id, userId, likes, isLiked)
         if (userId === undefined) return router.push('/sign-in');
         if (likes.includes(userId)) {
             const res = await fetch(`/api/thread/${id}/like`, {
@@ -19,7 +18,6 @@ function LikeButton({ threadId, likes, userId }: { threadId: string, likes: stri
                 },
                 body: JSON.stringify({ userId, path: pathname }),
             });
-            console.log(res)
             if (res.status === 200) {
                 likes = likes.splice(likes.indexOf(userId), 1);
                 setIsLiked(false);
@@ -32,7 +30,6 @@ function LikeButton({ threadId, likes, userId }: { threadId: string, likes: stri
                 },
                 body: JSON.stringify({ userId, path: pathname }),
             });
-            console.log(res)
             if (res.status === 200) {
                 likes.push(userId);
                 setIsLiked(true);
