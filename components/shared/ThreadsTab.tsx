@@ -34,7 +34,7 @@ async function ThreadsTab({ currentUserId, accountId, accountType, tabValue }: p
                     currentUserId={currentUserId}
                     parentId={thread.parentId}
                     content={thread.text}
-                    author={{ name: thread.author.name, image: thread.author.image, id: thread.author.id }}
+                    author={{ name: thread.author.name, image: thread.author.image, id: thread.author.id,_id:thread.author._id }}
                     community={thread.community}
                     createdAt={thread.createdAt}
                     comments={thread.children}

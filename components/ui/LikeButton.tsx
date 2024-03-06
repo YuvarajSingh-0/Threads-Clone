@@ -39,8 +39,8 @@ function LikeButton({ threadId, likes, userId }: { threadId: string, likes: stri
 
     return (
         <>
-            <button>
-                <Image src={isLiked ? '/assets/heart-filled.svg' : '/assets/heart-gray.svg'} alt='heart' width={24} height={24} onClick={() => toggleLike(threadId)} className='cursor-pointer object-contain' />
+            <button onClick={() => toggleLike(threadId)}>
+                <Image src={isLiked ? '/assets/heart-filled.svg' : '/assets/heart-gray.svg'} alt='heart' width={24} height={24} className='cursor-pointer object-contain' />
             </button>
             <p className='mr-3 text-small-regular text-[#5C5C7B]'>{likes.length}</p>
         </>

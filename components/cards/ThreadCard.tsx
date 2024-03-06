@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import LikeButton from '../ui/LikeButton'
-
+import DeleteThreadButton from '../ui/DeleteThreadButton'
 interface props {
   id: string
   currentUserId: string
@@ -13,6 +13,7 @@ interface props {
     name: string,
     image: string,
     id: string,
+    _id: string,
   }
   community: {
     name: string,
@@ -28,7 +29,8 @@ interface props {
   isComment?: boolean;
   likes: string[]
 }
-async function ThreadCard({
+
+function ThreadCard({
   id,
   currentUserId,
   parentId,
@@ -43,7 +45,7 @@ async function ThreadCard({
 
 
   return (
-    <article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'}`}>
+    <article className={`relative flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'}`}>
       <div className='flex items-start justify-between'>
         <div className='flex w-full flex-1 flex-row gap-4'>
           <div className='flex flex-col items-center'>
@@ -53,12 +55,12 @@ async function ThreadCard({
             <div className='w-0.5 grow mt-2 relative rounded-full bg-neutral-800' />
           </div>
           <div className='flex w-full flex-col gap-1'>
-            <Link href={`/profile/${author.id}`} className='w-fit'>
+            <Link href={`/profile/${author.id}`} className='w-fit mt-2'>
               <h4 className='text-base-bold text-light-1 cursor-pointer'>
                 {author.name}
               </h4>
             </Link>
-            <p className='mt-2 text-small-regular text-light-2'>
+            <p className='mt-3 text-small-regular text-light-2'>
               {content}
             </p>
             <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
@@ -69,7 +71,8 @@ async function ThreadCard({
                 </Link>
                 <p className='mr-3 text-small-regular text-[#5C5C7B]'>{comments.length}</p>
                 <Image src='/assets/repost.svg' alt='repost' width={24} height={24} className='cursor-pointer object-contain' />
-                <Image src='/assets/share.svg' alt='share' width={24} height={24} className='cursor-pointer object-contain' />
+                {/* <Image src='/assets/share.svg' alt='share' width={24} height={24} className='cursor-pointer object-contain' /> */}
+                <DeleteThreadButton threadId={id} currentUserId={currentUserId} authorId={author._id} />
               </div>
               {isComment && comments.length > 0 && (
                 <Link href={`/thread/${id}`}>
@@ -81,7 +84,6 @@ async function ThreadCard({
             </div>
           </div>
         </div>
-        {/* TODO: Delete thread */}
         {/* TODO: Show comment logos */}
       </div>
       {!isComment && community && (
