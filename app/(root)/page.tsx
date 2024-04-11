@@ -25,7 +25,7 @@ export default async function Home() {
       <h1 className="text-heading2-bold text-head text-light-1 text-left">Threads</h1>
       <section className='mt-9 flex flex-col gap-10'>
         {/* <InfiniteThreads posts={result.posts} userInfo={userInfo} /> */}
-        <InfiniteThreads userId={userInfo._id} />
+        <InfiniteThreads userId={userInfo?._id || ""} />
       </section>
     </main>
   )

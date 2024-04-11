@@ -89,7 +89,7 @@ export async function fetchUserPosts(userId: string) {
                     select: "name id image _id", // Select the "name" and "_id" fields from the "Community" model
                 },
                 {
-                    path:"author",
+                    path: "author",
                     model: User,
                     select: "name image id _id", // Select the "name" and "_id" fields from the "User" model
                 },
@@ -219,11 +219,12 @@ export async function recommendProfiles(userId: string): Promise<IUser[]> {
     } else {
         // Find popular users across the entire application
         activeUsers = (await User.find({
-            onboarded: true,
-        }).populate({
-            path: 'threads',
-            populate: { path: 'children' }
-        })) as unknown as IUser[];
+            onboarded: true, 
+            $ne: { id: userId }
+            }).populate({
+                path: 'threads',
+                populate: { path: 'children' }
+            })) as unknown as IUser[];
     }
 
     // Rank users by thread engagement

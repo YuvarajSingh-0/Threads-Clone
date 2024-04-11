@@ -9,7 +9,7 @@ function LikeButton({ threadId, likes, userId }: { threadId: string, likes: stri
 
     const [isLiked, setIsLiked] = useState(likes.includes(userId));
     const toggleLike = async (id: string) => {
-        if (userId === undefined) return router.push('/sign-in');
+        if (userId === undefined || userId=="") return router.push('/sign-in');
         if (likes.includes(userId)) {
             const res = await fetch(`/api/thread/${id}/like`, {
                 method: 'DELETE',

@@ -21,7 +21,7 @@ export default async function RightSideBar() {
   const suggestedUsers = await recommendProfiles(user.id);
   const suggestedCommunities = await recommendCommunities(user.id);
   return (
-    <section className=" custom-scrollbar sticky right-0 top-0 z-20 flex h-screen w-fit min-w-80 flex-col justify-between gap-12 overflow-auto border-l border-l-dark-4 bg-dark-2 px-8 pb-6 pt-28 max-xl:hidden">
+    <section className={` ${recommendCommunities.length==0 && recommendProfiles.length==0 ? 'hidden':''} custom-scrollbar sticky right-0 top-0 z-20 flex h-screen w-fit min-w-80 flex-col justify-between gap-12 overflow-auto border-l border-l-dark-4 bg-dark-2 px-8 pb-6 pt-28 max-xl:hidden`}>
       <div className="flex flex-1 flex-col justify-start">
         <h3 className="text-light-1 text-heading4-medium">Suggested Communities</h3>
         {suggestedCommunities.map((community: any) => (
